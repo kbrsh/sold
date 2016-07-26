@@ -26,6 +26,7 @@
     "nob": "0.0.1"
   },
   "dependencies": {
-    "marked": "^0.3.5"
+    "marked": "^0.3.5",
+    "meta-marked": "^0.4.1"
   }
 }
