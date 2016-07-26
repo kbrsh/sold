@@ -1,0 +1,25 @@
+{
+  "name": "sold",
+  "version": "0.0.0",
+  "description": "minimal static site generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo No Test Yet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KingPixil/sold.git"
+  },
+  "keywords": [
+    "sold",
+    "cms",
+    "minimal",
+    "static"
+  ],
+  "author": "Kabir Shah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KingPixil/sold/issues"
+  },
+  "homepage": "https://github.com/KingPixil/sold#readme"
+}
