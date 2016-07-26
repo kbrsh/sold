@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "marked": "^0.3.5",
-    "meta-marked": "^0.4.1"
+    "meta-marked": "^0.4.1",
+    "mkdirp": "^0.5.1"
   }
 }
