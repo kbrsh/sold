@@ -1,7 +1,7 @@
 # Sold
 
-A minimal CMS
+A minimal static site generator
 
 ## Usage
 
-Go on the Sold website, and create an account.
+Coming soon
