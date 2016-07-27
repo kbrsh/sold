@@ -8,5 +8,5 @@ var readTime = function( elem ) {
 };
   
 document.getElementById("readTime").innerHTML = readTime(elem);
-
+twemoji.size = "16x16"
 twemoji.parse(document.body);
