@@ -1,5 +1,11 @@
 body {
     color: #131313;
+    overflow-x: hidden;
+}
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+    margin:0;
+    padding:0;
 }
 
 .container {
@@ -7,12 +13,6 @@ body {
     width: 50% !important;
 }
 
-#title {
-    font-size: 7rem;
-    font-family: "Montserrat";
-    font-weight: bolder;
-    margin-bottom: 0.5rem;
-}
 
 h1, h2, h3, h4, h5, h6 {
     font-family: "Montserrat";
@@ -29,9 +29,33 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 0px;
 }
 
-#home-btn a {
+#home-btn {
     text-decoration: none;
     color: #131313;
+}
+
+#head {
+    height: 100vh;
+    width: 100vw;
+    display: table;
+    text-align: center;
+}
+
+#head-container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#head-content {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#title {
+    font-size: 7rem;
+    font-family: "Montserrat";
+    font-weight: bolder;
+    margin-bottom: 0.5rem;
 }
 
 #description {
