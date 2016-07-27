@@ -10,7 +10,12 @@ body {
 #title {
     font-size: 7rem;
     font-family: "Montserrat";
+    font-weight: bolder;
     margin-bottom: 0.5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat";
 }
 
 
@@ -19,7 +24,7 @@ body {
     font-size: 3rem;
 }
 
-#blog-title {
+#home-btn {
     position: absolute;
     top: 5%;
     right: 5%;
