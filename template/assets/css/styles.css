@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 5%;
     left: 5%;
     font-size: 2rem;
-    border: 3px solid #131313;
+    border: 4px solid #131313;
     background-color: transparent;
     padding: 1.5rem 2.5rem;
     border-radius: 0px;
@@ -65,9 +65,17 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
+#left-arrow {
+    margin-right: 1rem;
+}
+
 
 article {
     font-size: 2rem;
     font-family: 'Lato';
     font-weight: lighter;
+}
+
+p {
+    margin-bottom: 2rem;
 }
