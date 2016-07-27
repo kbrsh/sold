@@ -9,3 +9,4 @@ var readTime = function( elem ) {
   
 document.getElementById("readTime").innerHTML = readTime(elem);
 
+twemoji.parse(document.body);

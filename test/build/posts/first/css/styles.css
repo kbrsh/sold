@@ -86,3 +86,8 @@ article {
 p {
     margin-bottom: 2rem;
 }
+
+img.emoji {  
+  margin: 0px !important;
+  display: inline !important;
+}
