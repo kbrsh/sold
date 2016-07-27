@@ -50,3 +50,8 @@ $ node soldconfig.js
 ```
 
 6) Check out the files generated for you in the `build/` directory
+
+
+## License
+
+Licensed under the [MIT License](http://kingpixil.github.io/license)
