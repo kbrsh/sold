@@ -1,0 +1,38 @@
+body {
+    color: #131313;
+}
+
+.container {
+    text-align: left;
+    width: 50% !important;
+}
+
+#title {
+    font-size: 7rem;
+    font-family: "Montserrat";
+    margin-bottom: 0.5rem;
+}
+
+
+#description {
+    margin-top: 0rem;
+    font-size: 3rem;
+}
+
+#blog-title {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 3rem;
+}
+
+#blog-title a {
+    text-decoration: none;
+    color: #131313;
+}
+
+article {
+    font-size: 2rem;
+    font-family: 'Lato';
+    font-weight: lighter;
+}
