@@ -37,9 +37,6 @@ h1, h2, h3, h4, h5, h6 {
 #head {
     height: 100vh;
     width: 100vw;
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
     display: table;
     text-align: center;
 }
@@ -64,12 +61,10 @@ h1, h2, h3, h4, h5, h6 {
 #description {
     margin-top: 0rem;
     font-size: 3rem;
+    font-family: 'Lato';
+    font-weight: bold;
 }
 
-#blog-title a {
-    text-decoration: none;
-    color: #131313;
-}
 
 article {
     font-size: 2rem;
