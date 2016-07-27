@@ -20,7 +20,8 @@ var Sold = require('sold')
 Sold(__dirname) // create new instance in root directory
     .data({
         title: "My Title",
-        description: "Post Description"
+        description: "Post Description",
+        author: "John Doe"
     }) // set custom data for blog
     .source("src") // set the source for where the markdown files are stored (default is src)
     .destination("build") // set destination path for build files (default is build)
