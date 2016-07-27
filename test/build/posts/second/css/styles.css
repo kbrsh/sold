@@ -10,19 +10,32 @@ body {
 #title {
     font-size: 7rem;
     font-family: "Montserrat";
+    font-weight: bolder;
     margin-bottom: 0.5rem;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat";
+}
+
+#home-btn {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    font-size: 2rem;
+    border: 3px solid #131313;
+    background-color: transparent;
+    padding: 1.5rem 2.5rem;
+    border-radius: 0px;
+}
+
+#home-btn a {
+    text-decoration: none;
+    color: #131313;
+}
 
 #description {
     margin-top: 0rem;
-    font-size: 3rem;
-}
-
-#blog-title {
-    position: absolute;
-    top: 5%;
-    right: 5%;
     font-size: 3rem;
 }
 
