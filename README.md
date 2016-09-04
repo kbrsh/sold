@@ -53,6 +53,13 @@ $ node soldconfig.js
 6) Check out the files generated for you in the `build/` directory
 
 
+## Demo
+
+Websites running on Sold, submit an issue if you have one.
+
+- [My Blog](http://blog.kabir.ml)
+
+
 ## License
 
 Licensed under the [MIT License](http://kingpixil.github.io/license)
