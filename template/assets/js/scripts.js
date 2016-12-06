@@ -17,7 +17,6 @@ function humanizeDate (date) {
   var minute = 60
   var hour = minute * 60
   var day = hour * 24
-  var week = day * 7
   var month = day * 30
   var year = month * 12
 
