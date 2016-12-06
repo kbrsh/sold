@@ -24,7 +24,11 @@ function humanizeDate (date) {
   if (elapsed < 60) return 'Just now.'
   else if (elapsed < 2 * minute) return 'A minute ago'
   else if (elapsed < hour) return Math.floor(elapsed / minute) + ' minutes ago'
-  else if (elapsed < 24 * hour) return Math.floor(elapsed / hour) + ' hours ago'
+  else if (elapsed < 24 * hour) {
+    elapsed = Math.floor(elapsed / hour)
+    if (elapsed === 1) return elapsed + ' hour ago'
+    else return elapsed + ' hours ago'
+  }
   else if (elapsed < month) return Math.floor(elapsed / day) + ' days ago'
   else if (elapsed < year) return Math.floor(elapsed / month) + ' months ago'
   else if (elapsed >= year) {
@@ -37,4 +41,4 @@ function humanizeDate (date) {
 
 var metaDate = new Date(document.head.querySelector('[name="date"]').content)
 
-document.getElementById('humanDate').innerHTML = humanizeDate(metaDate) ? humanize(metaDate) : ""
+document.getElementById('humanDate').innerHTML = humanizeDate(metaDate) ? humanizeDate(metaDate) : ""
