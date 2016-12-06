@@ -1,7 +1,6 @@
 ---
 title: Hello World
 description: My second post
-date: 1944-05-12
 ---
 
 Leggings tacos narwhal, tousled crucifix pabst normcore locavore. Viral lo-fi quinoa roof party. Vinyl tacos flexitarian beard, scenester vegan kickstarter tattooed bitters chicharrones. Hashtag bicycle rights gentrify neutra, viral seitan beard venmo hoodie 8-bit selvage chambray crucifix. Artisan seitan keffiyeh 3 wolf moon cornhole. Shabby chic 8-bit locavore semiotics hammock tilde. Ennui mustache butcher mumblecore organic distillery.
