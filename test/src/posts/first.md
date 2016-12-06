@@ -1,6 +1,7 @@
 ---
 title: Hello World
 description: My first post
+date: 2016-12-06
 ---
 
 ☺
