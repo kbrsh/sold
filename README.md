@@ -39,6 +39,7 @@ Put some metadata at the top to let Sold know of the title and description of th
 ---
 title: My First Post
 description: This is my very first post
+date: 2016-12-06 10:08:00 GTMT+0100 (CET)
 ---
 
 Hello everyone, here is my first blog post I am making. How did I make it? With [Sold](https://github.com/KingPixil/sold) :)
