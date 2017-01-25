@@ -1,5 +1,3 @@
 #!/usr/local/bin/node
 
 var Sold = require('../index.js');
-var color = require('../lib/color.js');
-console.log(color.red("CLI Coming Soon"));
