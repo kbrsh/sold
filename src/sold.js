@@ -3,6 +3,7 @@ var marked = require('meta-marked');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var hexu = require('hexu');
+var ncp = require('ncp');
 
 var log = function(msg, color) {
   console.log(hexu[color](msg));
@@ -43,6 +44,7 @@ Sold.prototype.destination = function(location) {
 };
 
 Sold.prototype.template = function(location) {
+  this._template = path.join(this.directory, location);
   this._homeTemplate = path.join(this.directory, location, "index.html");
   this._postTemplate = path.join(this.directory, location, "post.html");
   return this;
@@ -59,9 +61,14 @@ Sold.prototype.build = function() {
   var destination = this._postDestination;
   var rootDestination = this._destination;
   var source = this._postSource;
+  var rootSource = this._source;
+  var rawPostSource = this._rawPostSource;
   var data = this._data;
   var postTemplate = fs.readFileSync(this._postTemplate).toString();
+  var postTemplatePath = this._postTemplate;
   var homeTemplate = fs.readFileSync(this._homeTemplate).toString();
+  var homeTemplatePath = this._homeTemplate;
+  var template = this._template;
   mkdirp(destination, (err) => {
     if(err) {
       error("Could not create \"" + destination + "\" Directory");
@@ -100,6 +107,21 @@ Sold.prototype.build = function() {
       compiledHomeTemplate = compiledHomeTemplate.replace(re, data[key]);
     }
     fs.writeFile(path.join(this._destination, "index.html"), compiledHomeTemplate);
+
+    // ncp(template, rootDestination, {
+    //   transform: function(read, write) {
+    //     var base = path.basename(write.path);
+    //     if(base !== path.basename(homeTemplatePath) && base !== path.basename(postTemplatePath) && base !== path.basename(rawPostSource)) {
+    //       read.pipe(write);
+    //     } else {
+    //       return;
+    //     }
+    //   }
+    // }, function (err) {
+    //   if(err) {
+    //     error("Could not build assets");
+    //   }
+    // });
 
   });
   log("     success\n", "green");
