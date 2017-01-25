@@ -2,7 +2,6 @@ var fs = require('fs');
 var marked = require('meta-marked');
 var path = require('path');
 var mkdirp = require('mkdirp');
-var ncp = require('ncp').ncp;
 var hexu = require('hexu');
 
 var log = function(msg, color) {
