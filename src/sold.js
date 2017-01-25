@@ -19,10 +19,17 @@ function Sold(dir) {
     this.directory = dir;
     this.data({});
     this.source("src");
+    this.postSource("posts");
     this.destination("build");
     this.template("template");
     log("     success\n", "green");
 }
+
+Sold.prototype.postSource = function(location) {
+  this._postSource = path.join(this._source, location);
+  this._rawPostSource = location;
+  return this;
+};
 
 Sold.prototype.source = function(location) {
   this._source = path.join(this.directory, location);
@@ -31,6 +38,7 @@ Sold.prototype.source = function(location) {
 
 Sold.prototype.destination = function(location) {
   this._destination = path.join(this.directory, location);
+  this._postDestination = path.join(this._destination, this._rawPostSource)
   return this;
 };
 
@@ -48,9 +56,12 @@ Sold.prototype.data = function(data) {
 
 Sold.prototype.build = function() {
   log("  => building", "blue");
-  var destination = this._destination;
-  var source = this._source;
+  var destination = this._postDestination;
+  var rootDestination = this._destination;
+  var source = this._postSource;
+  var data = this._data;
   var postTemplate = fs.readFileSync(this._postTemplate).toString();
+  var homeTemplate = fs.readFileSync(this._homeTemplate).toString();
   mkdirp(destination, (err) => {
     if(err) {
       error("Could not create \"" + destination + "\" Directory");
@@ -59,7 +70,7 @@ Sold.prototype.build = function() {
     fs.readdir(source, (err, files) => {
       for(var i = 0; i < files.length; i++) {
         var file = files[i];
-        fs.readFile(path.join(source, file), function(err, data) {
+        fs.readFile(path.join(source, file), (err, data) => {
           if(err) {
             error("Could not read file: \"" + files[i] + "\"");
           }
@@ -82,6 +93,13 @@ Sold.prototype.build = function() {
         });
       }
     });
+
+    var compiledHomeTemplate = homeTemplate;
+    for(var key in data) {
+      var re = new RegExp("{{blog-" + key + "}}", 'gi');
+      compiledHomeTemplate = compiledHomeTemplate.replace(re, data[key]);
+    }
+    fs.writeFile(path.join(this._destination, "index.html"), compiledHomeTemplate);
 
   });
   log("     success\n", "green");
