@@ -3,6 +3,7 @@ var marked = require('meta-marked');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var ncp = require('ncp');
+var Mustache = require("mustache");
 var log = require('./util.js').log;
 var error = require("./util.js").error;
 
@@ -61,18 +62,24 @@ Sold.prototype.build = function() {
   var homeTemplate = fs.readFileSync(this._homeTemplate).toString();
   var homeTemplatePath = this._homeTemplate;
   var template = this._template;
+
+  // Make destination directory
   mkdirp(destination, (err) => {
     if(err) {
       error("Could not create \"" + destination + "\" Directory");
     }
 
+    // Read the source directory
     fs.readdir(source, (err, files) => {
       for(var i = 0; i < files.length; i++) {
         var file = files[i];
+
+        // Read file in source directory
         fs.readFile(path.join(source, file), (err, data) => {
           if(err) {
             error("Could not read file: \"" + files[i] + "\"");
           }
+          // Compile the data into the post template
           var postData = postTemplate;
           var compiled = marked(data.toString());
           var metadata = compiled.meta;
@@ -81,25 +88,27 @@ Sold.prototype.build = function() {
           metadata["author"] = metadata.author;
           metadata["description"] = metadata.description;
           metadata["content"] = html;
-          for(var key in metadata) {
-            var re = new RegExp("{{post-" + key + "}}", 'gi');
-            postData = postData.replace(re, metadata[key]);
-          }
+          postData = Mustache.render(postData, metadata);
+
+          // Turn destination file to .html
           var destinationFile = file.split(".")
           destinationFile.pop();
           destinationFile = destinationFile.join(".") + ".html";
+
+          // Write destination file
           fs.writeFile(path.join(destination, destinationFile), postData);
         });
       }
     });
 
+    // Compile home template
     var compiledHomeTemplate = homeTemplate;
-    for(var key in data) {
-      var re = new RegExp("{{blog-" + key + "}}", 'gi');
-      compiledHomeTemplate = compiledHomeTemplate.replace(re, data[key]);
-    }
+    compiledHomeTemplate = Mustache.render(compiledHomeTemplate, data);
+
+    // Write home template
     fs.writeFile(path.join(this._destination, "index.html"), compiledHomeTemplate);
 
+    // Copy any other assets in the template to the destination
     ncp(template, rootDestination, {
       filter: function(fileName) {
         return (fileName !== homeTemplatePath) && (fileName !== postTemplatePath);
