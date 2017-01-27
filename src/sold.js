@@ -88,6 +88,12 @@ Sold.prototype.build = function() {
           metadata["author"] = metadata.author;
           metadata["description"] = metadata.description;
           metadata["content"] = html;
+
+          for(var key in metadata) {
+            metadata["post-" + key] = metadata[key];
+            delete metadata[key];
+          }
+          
           postData = Mustache.render(postData, metadata);
 
           // Turn destination file to .html
