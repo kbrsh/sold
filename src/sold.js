@@ -12,6 +12,7 @@ function Sold(dir) {
     log("======= Sold =======", "blue");
     log("  => intializing", "blue");
     this.directory = dir;
+    this.posts = [];
     this.data({});
     this.source("src");
     this.postSource("posts");
@@ -52,6 +53,7 @@ Sold.prototype.data = function(data) {
 
 Sold.prototype.build = function() {
   log("  => building", "blue");
+  this._data.posts = [];
   var data = this._data;
 
   var destination = this._destination;
@@ -73,42 +75,40 @@ Sold.prototype.build = function() {
     }
 
     // Read the source directory
-    fs.readdir(postSource, (err, files) => {
-      for(var i = 0; i < files.length; i++) {
-        var file = files[i];
+    var files = fs.readdirSync(postSource);
 
-        // Read file in source directory
-        fs.readFile(path.join(postSource, file), (err, data) => {
-          if(err) {
-            error("Could not read file: \"" + files[i] + "\"");
-          }
-          // Compile the data into the post template
-          var postData = postTemplate;
-          var compiled = marked(data.toString());
-          var metadata = compiled.meta;
-          var html = compiled.html;
-          metadata["title"] = metadata.title;
-          metadata["author"] = metadata.author;
-          metadata["description"] = metadata.description;
-          metadata["content"] = html;
+    for(var i = 0; i < files.length; i++) {
+      var file = files[i];
 
-          for(var key in metadata) {
-            metadata["post-" + key] = metadata[key];
-            delete metadata[key];
-          }
+      // Read file in source directory
+      var content = fs.readFileSync(path.join(postSource, file));
 
-          postData = Mustache.render(postData, metadata);
+      // Compile the data into the post template
+      var postData = postTemplate;
+      var compiled = marked(content.toString());
+      var metadata = compiled.meta;
+      var html = compiled.html;
+      metadata["title"] = metadata.title;
+      metadata["author"] = metadata.author;
+      metadata["description"] = metadata.description;
+      metadata["content"] = html;
+      data.posts.push(metadata);
 
-          // Turn destination file to an html file
-          var destinationFile = file.split(".")
-          destinationFile.pop();
-          destinationFile = destinationFile.join(".") + ".html";
-
-          // Write destination file
-          fs.writeFile(path.join(postDestination, destinationFile), postData);
-        });
+      for(var key in metadata) {
+        metadata["post-" + key] = metadata[key];
+        delete metadata[key];
       }
-    });
+
+      postData = Mustache.render(postData, metadata);
+
+      // Turn destination file to an html file
+      var destinationFile = file.split(".")
+      destinationFile.pop();
+      destinationFile = destinationFile.join(".") + ".html";
+
+      // Write destination file
+      fs.writeFileSync(path.join(postDestination, destinationFile), postData);
+    }
 
     // Compile home template
     var compiledHomeTemplate = homeTemplate;
