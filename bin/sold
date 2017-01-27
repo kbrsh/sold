@@ -1,3 +1,11 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 
 var Sold = require('../index.js');
+var log = require('../src/util.js').log;
+var error = require("../src/util.js").error;
+var args = process.argv.slice(1);
+
+if(args.length === 1) {
+  Sold(process.cwd())
+    .build();
+}

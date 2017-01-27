@@ -2,13 +2,9 @@ var fs = require('fs');
 var marked = require('meta-marked');
 var path = require('path');
 var mkdirp = require('mkdirp');
-var hexu = require('hexu');
 var ncp = require('ncp');
 var log = require('./util.js').log;
-
-var error = function(msg) {
-  throw new Error("[Sold] ERR: " + msg);
-}
+var error = require("./util.js").error;
 
 function Sold(dir) {
     if (!(this instanceof Sold)) return new Sold(dir);
