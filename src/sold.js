@@ -99,7 +99,7 @@ Sold.prototype.build = function() {
 
           postData = Mustache.render(postData, metadata);
 
-          // Turn destination file to .html
+          // Turn destination file to an html file
           var destinationFile = file.split(".")
           destinationFile.pop();
           destinationFile = destinationFile.join(".") + ".html";
