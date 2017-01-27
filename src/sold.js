@@ -4,10 +4,7 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var hexu = require('hexu');
 var ncp = require('ncp');
-
-var log = function(msg, color) {
-  console.log(hexu[color](msg));
-}
+var log = require('./util.js').log;
 
 var error = function(msg) {
   throw new Error("[Sold] ERR: " + msg);
