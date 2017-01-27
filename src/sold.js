@@ -115,7 +115,7 @@ Sold.prototype.build = function() {
     compiledHomeTemplate = Mustache.render(compiledHomeTemplate, data);
 
     // Write home template
-    fs.writeFile(path.join(this._destination, "index.html"), compiledHomeTemplate);
+    fs.writeFileSync(path.join(this._destination, "index.html"), compiledHomeTemplate);
 
     // Copy any other assets in the template to the destination
     ncp(template, destination, {
