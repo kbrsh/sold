@@ -3,6 +3,9 @@
   "version": "0.1.6",
   "description": "minimal static site generator",
   "main": "index.js",
+  "bin": {
+    "sold": "bin/sold"
+  },
   "scripts": {
     "test": "echo No Test Yet"
   },
