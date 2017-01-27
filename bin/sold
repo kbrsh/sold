@@ -3,9 +3,25 @@
 var Sold = require('../index.js');
 var log = require('../src/util.js').log;
 var error = require("../src/util.js").error;
+var fs = require('fs');
+var path = require('path');
+var exec = require('child_process').exec
 var args = process.argv.slice(1);
 
+var init = function(dir) {
+  var configFilePath = path.join(dir, "soldfile.js")
+  fs.readFile(configFilePath, (err, content) => {
+    if(err) {
+      error("Could not find/read a `soldconfig.js`");
+      return;
+    }
+
+    exec("node " + configFilePath, function(err, stdout) {
+      console.log(stdout);
+    });
+  });
+}
+
 if(args.length === 1) {
-  Sold(process.cwd())
-    .build();
+  init(process.cwd())
 }
