@@ -52,11 +52,14 @@ Sold.prototype.data = function(data) {
 
 Sold.prototype.build = function() {
   log("  => building", "blue");
-  var destination = this._postDestination;
-  var rootDestination = this._destination;
-  var source = this._postSource;
-  var rootSource = this._source;
   var data = this._data;
+
+  var destination = this._destination;
+  var postDestination = this._postDestination;
+
+  var source = this._source;
+  var postSource = this._postSource;
+
   var postTemplate = fs.readFileSync(this._postTemplate).toString();
   var postTemplatePath = this._postTemplate;
   var homeTemplate = fs.readFileSync(this._homeTemplate).toString();
@@ -64,18 +67,18 @@ Sold.prototype.build = function() {
   var template = this._template;
 
   // Make destination directory
-  mkdirp(destination, (err) => {
+  mkdirp(postDestination, (err) => {
     if(err) {
-      error("Could not create \"" + destination + "\" Directory");
+      error("Could not create \"" + postDestination + "\" Directory");
     }
 
     // Read the source directory
-    fs.readdir(source, (err, files) => {
+    fs.readdir(postSource, (err, files) => {
       for(var i = 0; i < files.length; i++) {
         var file = files[i];
 
         // Read file in source directory
-        fs.readFile(path.join(source, file), (err, data) => {
+        fs.readFile(path.join(postSource, file), (err, data) => {
           if(err) {
             error("Could not read file: \"" + files[i] + "\"");
           }
@@ -93,7 +96,7 @@ Sold.prototype.build = function() {
             metadata["post-" + key] = metadata[key];
             delete metadata[key];
           }
-          
+
           postData = Mustache.render(postData, metadata);
 
           // Turn destination file to .html
@@ -102,7 +105,7 @@ Sold.prototype.build = function() {
           destinationFile = destinationFile.join(".") + ".html";
 
           // Write destination file
-          fs.writeFile(path.join(destination, destinationFile), postData);
+          fs.writeFile(path.join(postDestination, destinationFile), postData);
         });
       }
     });
@@ -115,7 +118,7 @@ Sold.prototype.build = function() {
     fs.writeFile(path.join(this._destination, "index.html"), compiledHomeTemplate);
 
     // Copy any other assets in the template to the destination
-    ncp(template, rootDestination, {
+    ncp(template, destination, {
       filter: function(fileName) {
         return (fileName !== homeTemplatePath) && (fileName !== postTemplatePath);
       }
