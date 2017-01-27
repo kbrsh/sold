@@ -111,6 +111,11 @@ Sold.prototype.build = function() {
       fs.writeFileSync(path.join(postDestination, destinationFile), postData);
     }
 
+    // Order posts by `order` metadata
+    data.posts.sort((a, b) => {
+      return a["post-order"] - b["post-order"];
+    });
+    
     // Compile home template
     var compiledHomeTemplate = homeTemplate;
     compiledHomeTemplate = Mustache.render(compiledHomeTemplate, data);
