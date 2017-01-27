@@ -54,6 +54,37 @@ $ sold
 
 6) Check out the files generated for you in the `build/` directory
 
+## Templates
+
+A template should be in the file declared in the `.template` method of an instance. Sold will by default, search in the `template` directory.
+
+##### `index.html`
+
+This file should contain the homepage, and use mustache templates. All data set during initialization in the `data` option will be available here using templates like: `{{item}}`
+
+All posts and their metadata (included in YAML at the top of each post) will be provided in `posts`, you can iterate through them like this:
+
+```html
+{{#posts}}
+{{title}}
+{{/posts}}
+```
+
+The `{{title}}` refers to each post's title metadata.
+
+##### ```post.html```
+
+This file should contain the template used for each post, and can link to any other assets inside the template. All contents of the metadata provided at the top of each post's markdown content is provided in a template here, and the HTML for the post is provided in `content`. The HTML code should be accessed with a triple mustache, to be unescaped.
+
+```html
+<h1>{{title}}</h1>
+{{{content}}}
+```
+
+##### Other assets
+
+Any other assets will be copied over to the build directory.
+
 
 ## Demo
 
