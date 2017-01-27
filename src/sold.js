@@ -28,7 +28,7 @@ function Sold(dir) {
 
 Sold.prototype.postSource = function(location) {
   this._postSource = path.join(this._source, location);
-  this._rawPostSource = location;
+  this._postSourcePath = location;
   return this;
 };
 
@@ -39,7 +39,7 @@ Sold.prototype.source = function(location) {
 
 Sold.prototype.destination = function(location) {
   this._destination = path.join(this.directory, location);
-  this._postDestination = path.join(this._destination, this._rawPostSource)
+  this._postDestination = path.join(this._destination, this._postSourcePath)
   return this;
 };
 
@@ -62,7 +62,6 @@ Sold.prototype.build = function() {
   var rootDestination = this._destination;
   var source = this._postSource;
   var rootSource = this._source;
-  var rawPostSource = this._rawPostSource;
   var data = this._data;
   var postTemplate = fs.readFileSync(this._postTemplate).toString();
   var postTemplatePath = this._postTemplate;
@@ -108,20 +107,15 @@ Sold.prototype.build = function() {
     }
     fs.writeFile(path.join(this._destination, "index.html"), compiledHomeTemplate);
 
-    // ncp(template, rootDestination, {
-    //   transform: function(read, write) {
-    //     var base = path.basename(write.path);
-    //     if(base !== path.basename(homeTemplatePath) && base !== path.basename(postTemplatePath) && base !== path.basename(rawPostSource)) {
-    //       read.pipe(write);
-    //     } else {
-    //       return;
-    //     }
-    //   }
-    // }, function (err) {
-    //   if(err) {
-    //     error("Could not build assets");
-    //   }
-    // });
+    ncp(template, rootDestination, {
+      filter: function(fileName) {
+        return (fileName !== homeTemplatePath) && (fileName !== postTemplatePath);
+      }
+    }, function (err) {
+      if(err) {
+        error("Could not build assets");
+      }
+    });
 
   });
   log("     success\n", "green");
