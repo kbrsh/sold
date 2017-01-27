@@ -83,6 +83,11 @@ Sold.prototype.build = function() {
       // Read file in source directory
       var content = fs.readFileSync(path.join(postSource, file));
 
+      // Turn destination file to an html file
+      var destinationFile = file.split(".")
+      destinationFile.pop();
+      destinationFile = destinationFile.join(".") + ".html";
+
       // Compile the data into the post template
       var postData = postTemplate;
       var compiled = marked(content.toString());
@@ -92,6 +97,7 @@ Sold.prototype.build = function() {
       metadata["author"] = metadata.author;
       metadata["description"] = metadata.description;
       metadata["content"] = html;
+      metadata["file"] = destinationFile;
       data.posts.push(metadata);
 
       for(var key in metadata) {
@@ -100,11 +106,6 @@ Sold.prototype.build = function() {
       }
 
       postData = Mustache.render(postData, metadata);
-
-      // Turn destination file to an html file
-      var destinationFile = file.split(".")
-      destinationFile.pop();
-      destinationFile = destinationFile.join(".") + ".html";
 
       // Write destination file
       fs.writeFileSync(path.join(postDestination, destinationFile), postData);
