@@ -28,6 +28,10 @@ function Sold(dir) {
     log("     success\n", "green");
 }
 
+Sold.prototype.configHandlebars = function(config) {
+  config(Handlebars);
+}
+
 Sold.prototype.postSource = function(location) {
   this._postSource = path.join(this._source, location);
   this._postSourcePath = location;
