@@ -7,6 +7,13 @@ var Handlebars = require("handlebars");
 var log = require('./util.js').log;
 var error = require("./util.js").error;
 
+Handlebars.registerHelper('===', function(v1, v2, options) {
+  if(v1 === v2) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 function Sold(dir) {
     if (!(this instanceof Sold)) return new Sold(dir);
     log("======= Sold =======", "blue");
