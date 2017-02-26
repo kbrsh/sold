@@ -30,6 +30,7 @@ function Sold(dir) {
 
 Sold.prototype.configHandlebars = function(config) {
   config(Handlebars);
+  return this;
 }
 
 Sold.prototype.postSource = function(location) {
