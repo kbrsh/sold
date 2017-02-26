@@ -3,7 +3,7 @@ var marked = require('meta-marked');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var ncp = require('ncp');
-var Mustache = require("mustache");
+var Handlebars = require("handlebars");
 var log = require('./util.js').log;
 var error = require("./util.js").error;
 
@@ -105,7 +105,7 @@ Sold.prototype.build = function() {
         delete metadata[key];
       }
 
-      postData = Mustache.render(postData, metadata);
+      postData = Handlebars.compile(postData)(metadata);
 
       // Write destination file
       fs.writeFileSync(path.join(postDestination, destinationFile), postData);
@@ -115,10 +115,10 @@ Sold.prototype.build = function() {
     data.posts.sort((a, b) => {
       return a["post-order"] - b["post-order"];
     });
-    
+
     // Compile home template
     var compiledHomeTemplate = homeTemplate;
-    compiledHomeTemplate = Mustache.render(compiledHomeTemplate, data);
+    compiledHomeTemplate = Handlebars.compile(compiledHomeTemplate)(data);
 
     // Write home template
     fs.writeFileSync(path.join(this._destination, "index.html"), compiledHomeTemplate);
