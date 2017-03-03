@@ -1,6 +1,6 @@
 {
   "name": "sold",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "minimal static site generator",
   "main": "index.js",
   "bin": {
