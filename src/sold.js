@@ -149,5 +149,5 @@ Sold.prototype.build = function() {
   log("     success\n", "green");
   return this;
 
-
+}
 module.exports = Sold;
