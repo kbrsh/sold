@@ -81,7 +81,7 @@ Sold.prototype.build = function() {
   var template = this._template;
 
   // Make destination directory
-  mkdirp(postDestination, (err , function (req,res){
+  mkdirp(postDestination, (err , function (){
     if(err) {
       error("Could not create \"" + postDestination + "\" Directory");
     }}));
@@ -124,7 +124,7 @@ Sold.prototype.build = function() {
     }
 
     // Order posts by `order` metadata
-    data.posts.sort((a, b , function(req,res){
+    data.posts.sort((a, b , function(){
       return a["post-order"] - b["post-order"];
     }));
 
