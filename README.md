@@ -6,12 +6,12 @@ A minimal static blog post generator
 
 Run this to install Sold
 ```sh
-$ npm install -g sold
+$ npm install sold -g
 ```
 
 ## Usage
 
-1) Create instance of Sold in `soldconfig.js`
+1) Create instance of Sold in `soldfile.js`
 ```js
 var Sold = require('sold')
 
