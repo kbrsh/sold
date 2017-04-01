@@ -49,7 +49,7 @@ Hello everyone, here is my first blog post I am making. Made with [Sold](https:/
 6) Run
 
 ```sh
-$ node soldfile.js
+$ sold
 ```
 
 6) Check out the files generated for you in the `build/` directory
