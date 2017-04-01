@@ -4,14 +4,14 @@ A minimal static blog post generator
 
 ## Getting Started
 
-Run this to install Sold
+Run this to install Sold in project folder
 ```sh
-$ npm install -g sold
+$ npm install
 ```
 
 ## Usage
 
-1) Create instance of Sold in `soldconfig.js`
+1) Create instance of Sold in `soldfile.js`
 ```js
 var Sold = require('sold')
 
@@ -49,7 +49,7 @@ Hello everyone, here is my first blog post I am making. Made with [Sold](https:/
 6) Run
 
 ```sh
-$ sold
+$ node soldfile.js
 ```
 
 6) Check out the files generated for you in the `build/` directory
