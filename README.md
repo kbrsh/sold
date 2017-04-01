@@ -4,9 +4,9 @@ A minimal static blog post generator
 
 ## Getting Started
 
-Run this to install Sold in project folder
+Run this to install Sold
 ```sh
-$ npm install
+$ npm install sold -g
 ```
 
 ## Usage
