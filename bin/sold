@@ -9,7 +9,7 @@ var exec = require('child_process').exec
 var args = process.argv.slice(1);
 
 var init = function(dir) {
-  var configFilePath = path.join(dir, "soldfile.js")
+  var configFilePath = path.join(dir, "soldconfig.js")
   fs.readFile(configFilePath, (err, content) => {
     if(err) {
       error("Could not find/read a `soldconfig.js`");

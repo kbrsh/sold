@@ -81,10 +81,10 @@ Sold.prototype.build = function() {
   var template = this._template;
 
   // Make destination directory
-  mkdirp(postDestination, (err) => {
+  mkdirp(postDestination, (err , function (){
     if(err) {
       error("Could not create \"" + postDestination + "\" Directory");
-    }
+    }}));
 
     // Read the source directory
     var files = fs.readdirSync(postSource);
@@ -124,9 +124,9 @@ Sold.prototype.build = function() {
     }
 
     // Order posts by `order` metadata
-    data.posts.sort((a, b) => {
+    data.posts.sort((a, b , function(){
       return a["post-order"] - b["post-order"];
-    });
+    }));
 
     // Compile home template
     var compiledHomeTemplate = homeTemplate;
@@ -145,11 +145,9 @@ Sold.prototype.build = function() {
         error("Could not build assets");
       }
     });
-
-  });
+  };
   log("     success\n", "green");
   return this;
+
 }
-
-
 module.exports = Sold;
