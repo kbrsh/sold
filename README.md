@@ -23,7 +23,6 @@ Sold(__dirname) // create new instance in root directory
     }) // set custom data for blog
     .template("template") // set location for the template
     .source("src") // set the source for where the markdown files are stored (default is src)
-    .postSource("posts") // set the directory posts will be in (inside of the source directory) (default is posts)
     .destination("build") // set destination path for build files (default is build)
     .build() // build when everything is done
 ```
