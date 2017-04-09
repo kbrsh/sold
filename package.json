@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/KingPixil/sold#readme",
   "dependencies": {
-    "handlebars": "^4.0.6",
+    "ejs": "^2.5.6",
     "hexu": "^1.0.0",
     "marked": "^0.3.5",
     "meta-marked": "^0.4.1",

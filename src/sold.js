@@ -3,7 +3,7 @@ var marked = require('meta-marked');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var ncp = require('ncp');
-var Handlebars = require("handlebars");
+var compiler = require("./compiler.js");
 var log = require('./util.js').log;
 var error = require("./util.js").error;
 
@@ -22,8 +22,8 @@ function Sold(dir) {
   return this;
 }
 
-Sold.prototype.configHandlebars = function(config) {
-  config(Handlebars);
+Sold.prototype.engine = function(engine, opts) {
+  compiler.set(engine, opts);
   return this;
 }
 
@@ -96,12 +96,12 @@ Sold.prototype.build = function() {
       meta["section"] = subdirectoryName;
       allMeta.push(meta);
 
-      fs.writeFileSync(destinationFilePath, Handlebars.compile(postTemplate)(meta));
+      fs.writeFileSync(destinationFilePath, compiler.compile(postTemplate, meta));
     }
   }
 
   this.$data['posts'] = allMeta;
-  fs.writeFileSync(path.join(destinationPath, 'index.html'), Handlebars.compile(indexTemplate)(this.$data))
+  fs.writeFileSync(path.join(destinationPath, 'index.html'), compiler.compile(indexTemplate, this.$data))
 
   return this;
 }

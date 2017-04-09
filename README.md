@@ -73,7 +73,7 @@ The `{{title}}` refers to each post's title metadata.
 
 ##### ```post.html```
 
-This file should contain the template used for each post, and can link to any other assets inside the template. All contents of the metadata provided at the top of each post's markdown content is provided in a template here, and the HTML for the post is provided in `content`. The HTML code should be accessed with a triple mustache, to be unescaped.
+This file should contain the template used for each post, and can link to any other assets inside the template. All contents of the metadata provided at the top of each post's markdown content is provided in a template here, and the HTML for the post is provided in `content`. The HTML code should be accessed with a triple mustache, to be unescaped. The subdirectory it was in will be provided in `section`.
 
 ```html
 <h1>{{title}}</h1>
@@ -83,6 +83,14 @@ This file should contain the template used for each post, and can link to any ot
 ##### Other assets
 
 Any other assets will be copied over to the build directory.
+
+##### Template Engine
+
+Setting up a template engine can be done with the `engine` method, to setup an engine. Currently the supported engines are:
+
+* Handlebars (default)
+* EJS
+* Pug
 
 
 ## Demo
