@@ -70,6 +70,8 @@ Sold.prototype.build = function() {
 
   const destinationPath = path.join(this.$directory, this.$destination);
 
+  let allMeta = [];
+
   for(var i = 0; i < subdirectories.length; i++) {
     const subdirectoryName = subdirectories[i];
     const subdirectorySourcePath = path.join(sourcePath, subdirectoryName);
@@ -82,8 +84,6 @@ Sold.prototype.build = function() {
       trimmed.pop();
       return trimmed.join('.') + '.html';
     });
-
-    let allMeta = [];
 
     for(var j = 0; j < sourceFiles.length; j++) {
       const sourceFilePath = path.join(subdirectorySourcePath, sourceFiles[j]);
@@ -98,6 +98,9 @@ Sold.prototype.build = function() {
       fs.writeFileSync(destinationFilePath, Handlebars.compile(postTemplate)(meta));
     }
   }
+
+  this.$data['posts'] = allMeta;
+  fs.writeFileSync(path.join(destinationPath, 'index.html'), Handlebars.compile(indexTemplate)(this.$data))
 
   return this;
 }
