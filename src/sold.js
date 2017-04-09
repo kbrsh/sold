@@ -100,6 +100,10 @@ Sold.prototype.build = function() {
     }
   }
 
+  allMeta = allMeta.sort(function(a, b) {
+    return a["order"] - b["order"];
+  });
+  
   this.$data['posts'] = allMeta;
   fs.writeFileSync(path.join(destinationPath, 'index.html'), compiler.compile(indexTemplate, this.$data))
 
