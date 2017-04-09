@@ -1,6 +1,6 @@
 {
   "name": "sold",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "minimal static site generator",
   "main": "index.js",
   "bin": {
@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/KingPixil/sold#readme",
   "dependencies": {
-    "ejs": "^2.5.6",
     "hexu": "^1.0.0",
     "marked": "^0.3.5",
     "meta-marked": "^0.4.1",
