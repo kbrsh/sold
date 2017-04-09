@@ -94,6 +94,7 @@ Sold.prototype.build = function() {
       let {html, meta} = compile(sourceFileContent, postTemplate);
       meta["content"] = html;
       meta["section"] = subdirectoryName;
+      meta["file"] = destinationFiles[i];
       allMeta.push(meta);
 
       fs.writeFileSync(destinationFilePath, compiler.compile(postTemplate, meta));
@@ -103,7 +104,7 @@ Sold.prototype.build = function() {
   allMeta = allMeta.sort(function(a, b) {
     return a["order"] - b["order"];
   });
-  
+
   this.$data['posts'] = allMeta;
   fs.writeFileSync(path.join(destinationPath, 'index.html'), compiler.compile(indexTemplate, this.$data))
 
