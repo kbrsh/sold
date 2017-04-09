@@ -93,6 +93,7 @@ Sold.prototype.build = function() {
 
       let {html, meta} = compile(sourceFileContent, postTemplate);
       meta["content"] = html;
+      meta["section"] = subdirectoryName;
       allMeta.push(meta);
 
       fs.writeFileSync(destinationFilePath, Handlebars.compile(postTemplate)(meta));
