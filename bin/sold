@@ -12,7 +12,7 @@ var init = function(dir) {
   var configFilePath = path.join(dir, "soldfile.js")
   fs.readFile(configFilePath, (err, content) => {
     if(err) {
-      error("Could not find/read a `soldconfig.js`");
+      error("Could not find/read a `soldfile.js`");
       return;
     }
 
