@@ -17,19 +17,19 @@ const compilers = {
 const compile = (template, data, engine, options) => compilers[engine](template, data, options);
 
 const Sold = (options) => {
-  const root = options.root || process.cwd();
+  const root = options.root === undefined ? process.cwd() : options.root;
 
-  const template = path.join(root, options.template || "template");
+  const template = path.join(root, options.template === undefined ? "template" : options.template);
   const indexTemplate = fs.readFileSync(path.join(template, "index.html")).toString();
   const postTemplate = fs.readFileSync(path.join(template, "post.html")).toString();
 
-  const engine = (options.engine && options.engine.toLowerCase()) || ("handlebars");
+  const engine = (options.engine !== undefined && options.engine.toLowerCase()) || ("handlebars");
   const engineOptions = options.engineOptions;
 
-  const sourcePath = path.join(root, options.source);
+  const sourcePath = path.join(root, options.source === undefined ? "src" : options.source);
   const sourceDirectories = fs.readdirSync(sourcePath);
 
-  const destinationName = options.destination || "build";
+  const destinationName = options.destination === undefined ? "build" : options.destination;
   const destinationPath = path.join(root, destinationName);
 
   let posts = {};
@@ -67,7 +67,7 @@ const Sold = (options) => {
     }
   }
 
-  fs.writeFileSync(path.join(destinationPath, "index.html"), compile(indexTemplate, {posts: posts}, engine, engineOptions));
+  fs.writeFileSync(path.join(destinationPath, "index.html"), compile(indexTemplate, {data: posts}, engine, engineOptions));
 
   console.log(`\x1b[34m sold\x1b[0m Built files in directory \x1b[33m"./${destinationName}"\x1b[0m ✨`);
 }

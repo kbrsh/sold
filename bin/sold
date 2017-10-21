@@ -7,11 +7,14 @@ const configFilePath = path.join(process.cwd(), "soldfile.js");
 
 fs.readFile(configFilePath, (err, content) => {
   if(err) {
-    error("Could not find/read a `soldfile.js`");
+    console.error("[Sold ERROR]: Could not find/read a `soldfile.js`");
     return;
   }
 
   exec("node " + configFilePath, function(err, stdout) {
+    if(err) {
+      console.error("[Sold ERROR]: " + err);
+    }
     console.log(stdout);
   });
 });
