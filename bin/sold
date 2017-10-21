@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const exec = require("child_process").exec
-const configFilePath = path.join(dir, "soldfile.js");
+const configFilePath = path.join(process.cwd(), "soldfile.js");
 
 fs.readFile(configFilePath, (err, content) => {
   if(err) {
