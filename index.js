@@ -59,7 +59,7 @@ const Sold = (options) => {
     posts[directoryName] = sectionPosts;
 
     for(let j = 0; j < sectionPosts.length; j++) {
-      const sectionPost = sectionPosts[i];
+      const sectionPost = sectionPosts[j];
       let sectionPostHTMLFile = sectionPost.file.split(".");
       sectionPostHTMLFile.pop();
       sectionPostHTMLFile = sectionPostHTMLFile.join(".") + ".html";
