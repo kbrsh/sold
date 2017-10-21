@@ -1,27 +1,17 @@
 #!/usr/bin/env node
 
-var Sold = require('../index.js');
-var log = require('../src/util.js').log;
-var error = require("../src/util.js").error;
-var fs = require('fs');
-var path = require('path');
-var exec = require('child_process').exec
-var args = process.argv.slice(1);
+const fs = require("fs");
+const path = require("path");
+const exec = require("child_process").exec
+const configFilePath = path.join(dir, "soldfile.js");
 
-var init = function(dir) {
-  var configFilePath = path.join(dir, "soldfile.js")
-  fs.readFile(configFilePath, (err, content) => {
-    if(err) {
-      error("Could not find/read a `soldfile.js`");
-      return;
-    }
+fs.readFile(configFilePath, (err, content) => {
+  if(err) {
+    error("Could not find/read a `soldfile.js`");
+    return;
+  }
 
-    exec("node " + configFilePath, function(err, stdout) {
-      console.log(stdout);
-    });
+  exec("node " + configFilePath, function(err, stdout) {
+    console.log(stdout);
   });
-}
-
-if(args.length === 1) {
-  init(process.cwd())
-}
+});

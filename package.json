@@ -1,17 +1,14 @@
 {
   "name": "sold",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "description": "minimal static site generator",
   "main": "index.js",
   "bin": {
     "sold": "bin/sold"
   },
-  "scripts": {
-    "test": "echo No Test Yet"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KingPixil/sold.git"
+    "url": "git+https://github.com/kbrsh/sold.git"
   },
   "keywords": [
     "sold",
@@ -22,14 +19,10 @@
   "author": "Kabir Shah",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/KingPixil/sold/issues"
+    "url": "https://github.com/kbrsh/sold/issues"
   },
-  "homepage": "https://github.com/KingPixil/sold#readme",
+  "homepage": "https://github.com/kbrsh/sold#readme",
   "dependencies": {
-    "hexu": "^1.0.0",
-    "marked": "^0.3.5",
-    "meta-marked": "^0.4.1",
-    "mkdirp": "^0.5.1",
-    "ncp": "^2.0.0"
+    "meta-marked": "^0.4.2"
   }
 }
