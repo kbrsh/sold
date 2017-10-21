@@ -42,8 +42,13 @@ const Sold = (options) => {
     const sectionPosts = [];
 
     for(let j = 0; j < files.length; j++) {
-      const fileName = files[j];
+      let fileName = files[j];
       const compiled = marked(fs.readFileSync(path.join(directoryPath, fileName)).toString());
+
+      fileName = fileName.split(".");
+      fileName.pop();
+      fileName = fileName.join(".") + ".html";
+
       sectionPosts.push({
         section: directoryName,
         file: fileName,
@@ -60,10 +65,7 @@ const Sold = (options) => {
 
     for(let j = 0; j < sectionPosts.length; j++) {
       const sectionPost = sectionPosts[j];
-      let sectionPostHTMLFile = sectionPost.file.split(".");
-      sectionPostHTMLFile.pop();
-      sectionPostHTMLFile = sectionPostHTMLFile.join(".") + ".html";
-      fs.writeFileSync(path.join(destinationPath, directoryName, sectionPostHTMLFile), compile(postTemplate, sectionPost, engine, engineOptions));
+      fs.writeFileSync(path.join(destinationPath, directoryName, sectionPost.file), compile(postTemplate, sectionPost, engine, engineOptions));
     }
   }
 
