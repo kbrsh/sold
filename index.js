@@ -14,7 +14,13 @@ const compilers = {
   pug: (template, data, options) => require("pug").compile(template, options)(data)
 }
 
-const compile = (template, data, engine, options) => compilers[engine](template, data, options);
+const compile = (template, data, engine, options) => {
+  if(typeof engine === "function") {
+    return engine(template, data, options);
+  } else {
+    return compilers[engine.toLowerCase()](template, data, options);
+  }
+}
 
 const Sold = (options) => {
   const root = options.root === undefined ? process.cwd() : options.root;
@@ -23,7 +29,7 @@ const Sold = (options) => {
   const indexTemplate = fs.readFileSync(path.join(template, "index.html")).toString();
   const postTemplate = fs.readFileSync(path.join(template, "post.html")).toString();
 
-  const engine = (options.engine !== undefined && options.engine.toLowerCase()) || ("handlebars");
+  const engine = options.engine === undefined ? "handlebars" : options.engine;
   const engineOptions = options.engineOptions;
 
   const sourcePath = path.join(root, options.source === undefined ? "src" : options.source);

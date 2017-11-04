@@ -78,6 +78,15 @@ Setting up a template engine can be done with the `engine` option, to setup an e
 * EJS
 * Pug
 
+The `engine` option can also be a function that returns an output based on the template, data, and options given.
+
+```
+function engine(template, data, options) {
+  configure(options);
+  return compile(template, data);
+}
+```
+
 ## License
 
 Licensed under the [MIT License](http://kbrsh.github.io/license)
