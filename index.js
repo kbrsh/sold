@@ -3,22 +3,30 @@ const fs = require("fs");
 const path = require("path");
 
 const compilers = {
-  ejs: (template, data, options) => require("ejs").render(template, data, options),
-  handlebars: (template, data, options) => {
+  ejs: (template, data, options, done) => {
+    done(require("ejs").render(template, data, options));
+  },
+  handlebars: (template, data, options, done) => {
     const Handlebars = require("handlebars");
     if(options !== undefined) {
       options(Handlebars);
     }
-    return Handlebars.compile(template)(data);
+    done(Handlebars.compile(template)(data));
   },
-  pug: (template, data, options) => require("pug").compile(template, options)(data)
+  pug: (template, data, options, done) => {
+    done(require("pug").compile(template, options)(data));
+  }
 }
 
-const compile = (template, data, engine, options) => {
+const compile = (destination, template, data, engine, options) => {
   if(typeof engine === "function") {
-    return engine(template, data, options);
+    engine(template, data, options, (result) => {
+      fs.writeFileSync(destination, result);
+    });
   } else {
-    return compilers[engine.toLowerCase()](template, data, options);
+    compilers[engine.toLowerCase()](template, data, options, (result) => {
+      fs.writeFileSync(destination, result);
+    });
   }
 }
 
@@ -71,7 +79,7 @@ const Sold = (options) => {
 
     for(let j = 0; j < sectionPosts.length; j++) {
       const sectionPost = sectionPosts[j];
-      fs.writeFileSync(path.join(destinationPath, directoryName, sectionPost.file), compile(postTemplate, sectionPost, engine, engineOptions));
+      compile(path.join(destinationPath, directoryName, sectionPost.file), postTemplate, sectionPost, engine, engineOptions);
     }
   }
 
