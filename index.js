@@ -2,6 +2,8 @@ const marked = require("meta-marked");
 const fs = require("fs");
 const path = require("path");
 
+const markdownExtensions = ["markdown", "mdown", "mkdn", "mkd", "md"];
+
 const compilers = {
   ejs: (template, data, options, done) => {
     done(require("ejs").render(template, data, options));
@@ -52,6 +54,10 @@ const Sold = (options) => {
     const directoryName = sourceDirectories[i];
     const directoryPath = path.join(sourcePath, directoryName);
 
+    if(fs.lstatSync(directoryPath).isFile()) {
+      continue;
+    }
+
     const files = fs.readdirSync(directoryPath);
     const sectionPosts = [];
 
@@ -60,6 +66,11 @@ const Sold = (options) => {
       const compiled = marked(fs.readFileSync(path.join(directoryPath, fileName)).toString());
 
       fileName = fileName.split(".");
+
+      if(markdownExtensions.indexOf(fileName[1].toLowerCase()) === -1) {
+        continue;
+      }
+
       fileName.pop();
       fileName = fileName.join(".") + ".html";
 
