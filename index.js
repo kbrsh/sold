@@ -52,7 +52,8 @@ const Sold = (options) => {
     const directoryName = sourceDirectories[i];
     const directoryPath = path.join(sourcePath, directoryName);
 
-    const files = fs.readdirSync(directoryPath);
+    const dirtyFiles = fs.readdirSync(directoryPath);
+    const files = dirtyFiles.filter(item => !/^\./.test(item))
     const sectionPosts = [];
 
     for(let j = 0; j < files.length; j++) {
