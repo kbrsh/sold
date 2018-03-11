@@ -20,7 +20,9 @@ Sold({
   root: __dirname, // root folder (default is current working directory)
   template: "template", // template folder relative to root (default is "template")
   source: "src", // source folder relative to root (default is "src"),
-  destination: "build" // destination folder relative to root (default is "build")
+  destination: "build", // destination folder relative to root (default is "build")
+  engine: "handlebars", // template engine (default is "handlebars")
+  engineOptions: {} // template engine options (default is {})
 });
 ```
 
@@ -51,13 +53,13 @@ $ sold
 
 A template should be in the file declared in the `template` option of an instance. Sold will, by default, search in the `template` directory.
 
-##### `index.html`
+#### `index.html`
 
 This file should contain the home page. It will be provided with a map called `data` with keys of each section, and values of an array of the posts inside.
 
-##### `post.html`
+#### `post.html`
 
-This file should contain the template used for each post. All contents of the metadata provided at the top of each post's markdown content is provided in a template here, and the HTML for the post is provided in `content`. The HTML code should be accessed with a triple mustache, to be unescaped.
+This file should contain the template used for each post. All contents of the metadata provided at the top of each post's markdown content is provided in a template here, and the HTML for the post is provided in `content`. The HTML code should be unescaped.
 
 The subdirectory it was in will be provided in `section`, and the file name will be provided in `file`. If an `order` option is defined in the metadata, then the posts will be given in ascending order using the value.
 
@@ -70,7 +72,7 @@ The subdirectory it was in will be provided in `section`, and the file name will
 {{{content}}}
 ```
 
-##### Template Engine
+#### Template Engine
 
 Setting up a template engine can be done with the `engine` option, to setup an engine. Currently the supported engines are:
 
@@ -80,7 +82,7 @@ Setting up a template engine can be done with the `engine` option, to setup an e
 
 The `engine` option can also be a function that calls a callback with a result when given a template, data, and options.
 
-```
+```js
 function engine(template, data, options, done) {
   configure(options);
   done(compile(template, data));
