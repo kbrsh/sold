@@ -61,13 +61,17 @@ This file should contain the home page. It will be provided all section names as
 
 This file should contain the template used for each post. All contents of the metadata provided at the top of each post's markdown content is provided in a template here, and the HTML for the post is provided in `content`. The HTML code should be unescaped.
 
-The subdirectory it was in will be provided in `section`, and the file name will be provided in `file`. If an `order` option is defined in the metadata, then the posts will be given in ascending order using the value.
+The subdirectory it was in will be provided in `section`, the file name will be provided in `file`, and a map of sections to post arrays will be provided in `posts`. If an `order` option is defined in the metadata, then the posts will be given in ascending order using the value.
 
 ```html
 <h1>{{title}}</h1>
 
 <p>{{section}}</p>
 <p>{{file}}</p>
+
+{{#posts.posts}}
+	{{title}}
+{{/posts.posts}}
 
 {{{content}}}
 ```
