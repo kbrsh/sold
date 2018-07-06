@@ -77,6 +77,7 @@ const Sold = (options) => {
       sectionPosts.push({
         section: directoryName,
         file: fileName,
+        posts: posts,
         ...compiled.meta,
         content: compiled.html
       });
@@ -94,7 +95,7 @@ const Sold = (options) => {
     }
   }
 
-  compile(path.join(destinationPath, "index.html"), indexTemplate, {data: posts}, engine, engineOptions);
+  compile(path.join(destinationPath, "index.html"), indexTemplate, posts, engine, engineOptions);
 
   console.log(`\x1b[34m sold\x1b[0m Built files in directory \x1b[33m"./${destinationName}"\x1b[0m ✨`);
 }
