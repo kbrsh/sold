@@ -55,7 +55,7 @@ A template should be in the file declared in the `template` option of an instanc
 
 #### `index.html`
 
-This file should contain the home page. It will be provided with a map called `data` with keys of each section, and values of an array of the posts inside.
+This file should contain the home page. It will be provided all section names as values holding arrays of the posts in that section.
 
 #### `post.html`
 
