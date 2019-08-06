@@ -93,6 +93,48 @@ function engine(template, data, options, done) {
 }
 ```
 
+## JSON Feed
+
+If you want to generate a JSON Feed for your blog-like site, add this to your Soldfile:
+
+```js
+Sold({
+	// other options...
+	feed: {
+		JSON: {
+			title: "My Awesome Blog", // the title shown in the feed
+			home_page_url: "https://my.awesome.blog" // the HTTP(S) URL to where the site will reside
+		}
+	}
+});
+```
+
+Note that your posts should have a parsable `date` metadata entry within the triple-dash block, like so:
+
+```markdown
+---
+title: First Post
+date: 2019-08-01 12:00 PST
+description: My very first post
+author:
+	name: John Doe
+	url: https://example.com
+tags:
+	- first
+	- sold
+---
+
+Hey! This blog post was made with [Sold](https://github.com/kbrsh/sold).
+```
+
+Posts that have `draft: true` won't appear in the feed, and the feed will only contain only so many recent posts so that it doesn't exceed 256 KiB. Optional fields supported by the post include `description`, `author`, `date`, and `tags`.
+
+The feed will be generated at `/feed.json`; you can add that to your index template, preferrably in the header like this:
+
+```html
+<link rel="alternate" type="application/json" title="JSON Feed" href="/feed.json"/>
+```
+
 ## License
 
-Licensed under the [MIT License](http://kbrsh.github.io/license)
+Licensed under the [MIT License](https://kbrsh.github.io/license)
