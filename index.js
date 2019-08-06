@@ -81,14 +81,6 @@ const compileJSONFeed = (destination, posts, options) => {
 	let feedLength = 0;
 
 	for (let i = 0; i < allPosts.length; i++) {
-		// Prevent the feed from growing too large by truncating it at around 256
-		// kB. Note that this measures codepoint length instead of actual bytes; it
-		// might end up quite a bit larger (if using a lot of high codepoints, for
-		// example), but it should be a good heuristic regardless.
-		if (feedLength > 256 * 1024) {
-			break;
-		}
-
 		const post = allPosts[i];
 		const item = {
 			id: feed.home_page_url + post.file,
@@ -122,6 +114,14 @@ const compileJSONFeed = (destination, posts, options) => {
 
 		feed.items.push(item);
 		feedLength += JSON.stringify(item).length;
+
+		// Prevent the feed from growing too large by truncating it at around 256
+		// kB. Note that this measures codepoint length instead of actual bytes; it
+		// might end up quite a bit larger (if using a lot of high codepoints, for
+		// example), but it should be a good heuristic regardless.
+		if (feedLength > 256 * 1024) {
+			break;
+		}
 	}
 
 	fs.writeFileSync(path.join(destination, "feed.json"), JSON.stringify(feed));
