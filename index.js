@@ -91,8 +91,8 @@ const compileJSONFeed = (destination, posts, options) => {
 	for (let i = 0; i < allPosts.length; i++) {
 		const post = allPosts[i];
 		const item = {
-			id: feed.home_page_url + post.file,
-			url: feed.home_page_url + post.file,
+			id: feed.home_page_url + post.section + "/" + post.file,
+			url: feed.home_page_url + post.section + "/" + post.file,
 			title: post.title,
 			content_html: post.content
 		};
