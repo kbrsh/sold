@@ -109,7 +109,7 @@ Sold({
 });
 ```
 
-Note that your posts should have a parsable `date` metadata entry within the triple-dash block, like so:
+A post can look like this:
 
 ```markdown
 ---
@@ -128,6 +128,8 @@ Hey! This blog post was made with [Sold](https://github.com/kbrsh/sold).
 ```
 
 Posts that have `draft: true` won't appear in the feed, and the feed will only contain only so many recent posts so that it doesn't exceed 256 KiB. Optional fields supported by the post include `description`, `author`, `date`, and `tags`.
+
+Note that the `date` metadata entry must be valid input to `Date.parse`. Posts are ordered by the `order` property if it is present, or else they are sorted by `date`. If neither are present, then they are not sorted at all.
 
 The feed will be generated at `/feed.json`; you can add that to your index template, preferrably in the header like this:
 
