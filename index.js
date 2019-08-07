@@ -69,7 +69,15 @@ const compileJSONFeed = (destination, posts, options) => {
 			[]
 		)
 		.filter(post => !post.draft)
-		.sort((item, next) => "order" in item ? item.order - next.order : 0);
+		.sort((item, next) => {
+			if (item.order !== undefined) {
+				return item.order - next.order;
+			} else if (item.date !== undefined) {
+				return Date.parse(next.date) - Date.parse(item.date);
+			} else {
+				return 0;
+			}
+		});
 
 	const feed = {
 		version: "https://jsonfeed.org/version/1",
@@ -180,6 +188,8 @@ const Sold = (options) => {
 
 		if (sectionPosts[0].order !== undefined) {
 			sectionPosts.sort((item, next) => item.order - next.order);
+		} else if (sectionPosts[0].date !== undefined) {
+			sectionPosts.sort((item, next) => Date.parse(next.date) - Date.parse(item.date));
 		}
 
 		posts[section] = sectionPosts;
