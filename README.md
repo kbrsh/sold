@@ -117,11 +117,11 @@ title: First Post
 date: 2019-08-01 12:00 PST
 description: My very first post
 author:
-	name: John Doe
-	url: https://example.com
+   name: John Doe
+   url: https://example.com
 tags:
-	- first
-	- sold
+   - first
+   - sold
 ---
 
 Hey! This blog post was made with [Sold](https://github.com/kbrsh/sold).
