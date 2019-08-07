@@ -98,8 +98,12 @@ const compileJSONFeed = (destination, posts, options) => {
 		};
 
 		// Handle optional fields.
-		if ("description" in post) {
-			item.description = post.description;
+		if ("summary" in post) {
+			item.summary = post.summary;
+		}
+
+		if ("image" in post) {
+			item.image = post.image;
 		}
 
 		if ("author" in post) {
