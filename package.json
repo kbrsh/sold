@@ -1,28 +1,32 @@
 {
-  "name": "sold",
-  "version": "2.3.2",
-  "description": "minimal static site generator",
-  "main": "index.js",
-  "bin": {
-    "sold": "bin/sold"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kbrsh/sold.git"
-  },
-  "keywords": [
-    "sold",
-    "cms",
-    "minimal",
-    "static"
-  ],
-  "author": "Kabir Shah",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kbrsh/sold/issues"
-  },
-  "homepage": "https://github.com/kbrsh/sold#readme",
-  "dependencies": {
-    "meta-marked": "^0.4.2"
-  }
+	"name": "sold",
+	"version": "3.0.0",
+	"description": "minimal static site generator",
+	"main": "index.js",
+	"bin": {
+		"sold": "bin/sold"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kbrsh/sold.git"
+	},
+	"keywords": [
+		"sold",
+		"cms",
+		"minimal",
+		"static",
+		"site",
+		"generator"
+	],
+	"author": "Kabir Shah",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/kbrsh/sold/issues"
+	},
+	"homepage": "https://github.com/kbrsh/sold#readme",
+	"dependencies": {
+		"ejs": "^3.0.1",
+		"front-matter": "^3.0.2",
+		"marked": "^0.8.0"
+	}
 }

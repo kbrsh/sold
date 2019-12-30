@@ -2,19 +2,35 @@
 
 const fs = require("fs");
 const path = require("path");
-const exec = require("child_process").exec
-const configFilePath = path.join(process.cwd(), "soldfile.js");
+const exec = require("child_process").exec;
+const configFilePath = path.join(process.cwd(), "sold.config.js");
 
-fs.readFile(configFilePath, (err, content) => {
-  if(err) {
-    console.error("[Sold ERROR]: Could not find/read a `soldfile.js`");
-    return;
-  }
+fs.readFile(configFilePath, (error, content) => {
+	if (error !== null) {
+		console.error(`\x1b[31merror\x1b[0m Failed read of configuration file.
 
-  exec("node " + configFilePath, function(err, stdout) {
-    if(err) {
-      console.error("[Sold ERROR]: " + err);
-    }
-    console.log(stdout);
-  });
+Attempted to read configuration file:
+	${configFilePath}
+
+Received error:
+	${error}
+
+Expected successful read of configuration file.`);
+	}
+
+	exec("node " + configFilePath, (error, stdout) => {
+		if (error !== null) {
+			console.error(`\x1b[31merror\x1b[0m Failed execution of configuration file.
+
+Attempted to execute configuration file:
+	${configFilePath}
+
+Received error:
+	${error}
+
+Expected successful execution of configuration file.`);
+		}
+
+		console.log(stdout);
+	});
 });

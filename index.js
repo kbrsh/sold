@@ -1,103 +1,77 @@
-const marked = require("meta-marked");
+const fm = require("front-matter");
+const marked = require("marked");
+const ejs = require("ejs");
 const fs = require("fs");
 const path = require("path");
 
-const markdownExtensions = ["markdown", "mdown", "mkdn", "mkd", "md"];
+const markdownExtensions = [".markdown", ".mdown", ".mkdn", ".mkd", ".md"];
 
-const engines = {
-	ejs: (template, data, options, done) => {
-		done(require("ejs").render(template, data, options));
-	},
-	handlebars: (template, data, options, done) => {
-		const Handlebars = require("handlebars");
-
-		if (options !== undefined) {
-			options(Handlebars);
-		}
-
-		done(Handlebars.compile(template)(data));
-	},
-	pug: (template, data, options, done) => {
-		done(require("pug").compile(template, options)(data));
-	}
+const log = message => {
+	console.log(`\x1b[34msold\x1b[0m ${message}`);
 };
 
-const log = (format, ...args) => {
-	console.log(`\x1b[34msold\x1b[0m ${format}`, ...args);
+const logError = message => {
+	console.log(`\x1b[31merror\x1b[0m ${message}`);
 };
 
-const logOnce = () => {
+const logErrorOnce = () => {
 	let logged = false;
 
-	return (...args) => {
+	return message => {
 		if (logged === false) {
-			log(...args);
+			logError(message);
 			logged = true;
 		}
 	};
 };
 
-const compile = (destination, template, data, engine, options) => {
-	(typeof engine === "function" ? engine : engines[engine.toLowerCase()])(template, data, options, (result) => {
-		fs.writeFileSync(destination, result);
-	});
-};
+const compileFeedJSON = (feed, posts, destinationPath) => {
+	if (!("title" in feed)) {
+		logError(`Missing JSON feed title.
 
-const compileJSONFeed = (destination, posts, options) => {
-	if (!("title" in options)) {
-		log("Warning: `feed.JSON.title` not set in Soldfile, JSON Feed will not be generated");
-		return;
+Attempted to compile JSON feed.
+
+Received undefined value for \`feed.JSON.title\`.
+
+Expected \`feed.JSON.title\` to be defined.`);
 	}
 
-	if ("home_page_url" in options) {
-		const home_page_url = options.home_page_url;
+	if ("home_page_url" in feed) {
+		const home_page_url = feed.home_page_url;
 
 		// Add ending slash.
 		if (home_page_url[home_page_url.length - 1] !== "/") {
-			options.home_page_url += "/";
+			feed.home_page_url += "/";
 		}
 	} else {
-		log("Warning: `feed.JSON.home_page_url` not set in Soldfile, JSON Feed will not be generated");
-		return;
+		logError(`Missing JSON feed home page URL.
+
+Attempted to compile JSON feed.
+
+Received undefined value for \`feed.JSON.home_page_url\`.
+
+Expected \`feed.JSON.home_page_url\` to be defined.`);
 	}
 
-	const logDateInvalid = logOnce();
-
-	const allPosts = Object.keys(posts)
-		.reduce(
-			(allPostsCurrent, section) => allPostsCurrent.concat(posts[section]),
-			[]
-		)
-		.filter(post => !post.draft)
-		.sort((item, next) => {
-			if (item.order !== undefined) {
-				return item.order - next.order;
-			} else if (item.date !== undefined) {
-				return Date.parse(next.date) - Date.parse(item.date);
-			} else {
-				return 0;
-			}
-		});
-
-	const feed = {
-		version: "https://jsonfeed.org/version/1",
-		title: options.title,
-		home_page_url: options.home_page_url,
-		feed_url: options.home_page_url + "feed.json",
-		items: []
-	};
+	const logDateInvalid = logErrorOnce();
 	let feedLength = 0;
+	feed.version = "https://jsonfeed.org/version/1";
+	feed.feed_url = feed.home_page_url + "feed.json";
+	feed.items = [];
 
-	for (let i = 0; i < allPosts.length; i++) {
-		const post = allPosts[i];
+	for (let i = 0; i < posts.length; i++) {
+		const post = posts[i];
 		const item = {
-			id: feed.home_page_url + post.section + "/" + post.file,
-			url: feed.home_page_url + post.section + "/" + post.file,
-			title: post.title,
+			id: feed.home_page_url + post.file + ".html",
+			url: feed.home_page_url + post.file + ".html",
 			content_html: post.content
 		};
 
 		// Handle optional fields.
+		if ("title" in post) {
+			item.title = post.title;
+		}
+
 		if ("summary" in post) {
 			item.summary = post.summary;
 		}
@@ -114,7 +88,17 @@ const compileJSONFeed = (destination, posts, options) => {
 			const timestamp = Date.parse(post.date);
 
 			if (isNaN(timestamp)) {
-				logDateInvalid(`Warning: some posts have dates that cannot be parsed; those won't appear in the JSON Feed (first encountered with ${post.file})`);
+				logDateInvalid(`Some posts with invalid date.
+
+Attempted to compile post items for JSON feed.
+
+Received invalid date:
+	${post.date}
+
+	First encountered in file:
+		${post.file}
+
+Expected valid date.`);
 			} else {
 				item.date_published = (new Date(timestamp)).toISOString();
 			}
@@ -128,91 +112,80 @@ const compileJSONFeed = (destination, posts, options) => {
 		feedLength += JSON.stringify(item).length;
 
 		// Prevent the feed from growing too large by truncating it at around 256
-		// kB. Note that this measures codepoint length instead of actual bytes; it
-		// might end up quite a bit larger (if using a lot of high codepoints, for
-		// example), but it should be a good heuristic regardless.
+		// kB. Note that this measures codepoint length instead of actual bytes;
+		// it might end up quite a bit larger (if using a lot of high codepoints,
+		// for example), but it should be a good heuristic regardless.
 		if (feedLength > 256 * 1024) {
 			break;
 		}
 	}
 
-	fs.writeFileSync(path.join(destination, "feed.json"), JSON.stringify(feed));
+	fs.writeFileSync(path.join(destinationPath, "feed.json"), JSON.stringify(feed));
 };
 
-const Sold = (options) => {
-	const root = options.root === undefined ? process.cwd() : options.root;
-
-	const engine = options.engine === undefined ? "handlebars" : options.engine;
-	const engineOptions = options.engineOptions;
-
-	const template = path.join(root, options.template === undefined ? "template" : options.template);
-	const templateIndex = fs.readFileSync(path.join(template, "index.html")).toString();
-	const templatePost = fs.readFileSync(path.join(template, "post.html")).toString();
-
-	const sourcePath = path.join(root, options.source === undefined ? "src" : options.source);
-	const sourceSections = fs.readdirSync(sourcePath);
-
-	const destinationName = options.destination === undefined ? "build" : options.destination;
+const Sold = options => {
+	const root = "root" in options ? options.root : process.cwd();
+	const templatePath = path.join(root, "template" in options ? options.template : "template");
+	const templateIndex = fs.readFileSync(path.join(templatePath, "index.html"), "utf8");
+	const templatePost = fs.readFileSync(path.join(templatePath, "post.html"), "utf8");
+	const sourcePath = path.join(root, "source" in options ? options.source : "src");
+	const sourceFiles = fs.readdirSync(sourcePath);
+	const destinationName = "destination" in options ? options.destination : "dist";
 	const destinationPath = path.join(root, destinationName);
+	const feed = "feed" in options ? options.feed : {};
+	const posts = [];
 
-	const feed = options.feed === undefined ? {} : options.feed;
+	marked.setOptions("marked" in options ? options.marked : {});
 
-	let posts = {};
+	for (let i = 0; i < sourceFiles.length; i++) {
+		const sourceFile = sourceFiles[i];
+		const sourceFileExtension = path.extname(sourceFile);
 
-	for (let i = 0; i < sourceSections.length; i++) {
-		const section = sourceSections[i];
-		const sectionPath = path.join(sourcePath, section);
+		if (markdownExtensions.indexOf(sourceFileExtension) !== -1) {
+			const meta = fm(fs.readFileSync(path.join(sourcePath, sourceFile), "utf8"));
 
-		if (fs.lstatSync(sectionPath).isFile()) {
-			continue;
-		}
-
-		const files = fs.readdirSync(sectionPath);
-		const sectionPosts = [];
-
-		for (let j = 0; j < files.length; j++) {
-			const file = files[j];
-			const fileParts = file.split(".");
-			const fileExtenstion = fileParts.pop();
-
-			if (markdownExtensions.indexOf(fileExtenstion) === -1) {
-				continue;
-			}
-
-			const compiled = marked(fs.readFileSync(path.join(sectionPath, file)).toString());
-
-			sectionPosts.push({
-				section,
-				file: fileParts.join(".") + ".html",
-				posts,
-				...compiled.meta,
-				content: compiled.html
+			posts.push({
+				file: path.basename(sourceFile, sourceFileExtension),
+				content: marked(meta.body),
+				...meta.attributes
 			});
 		}
+	}
 
-		if (sectionPosts[0].order !== undefined) {
-			sectionPosts.sort((item, next) => item.order - next.order);
-		} else if (sectionPosts[0].date !== undefined) {
-			sectionPosts.sort((item, next) => Date.parse(next.date) - Date.parse(item.date));
-		}
+	if (posts[0].order !== undefined) {
+		posts.sort((item, next) => item.order - next.order);
+	} else if (posts[0].date !== undefined) {
+		posts.sort((item, next) => Date.parse(next.date) - Date.parse(item.date));
+	}
 
-		posts[section] = sectionPosts;
+	fs.writeFileSync(
+		path.join(destinationPath, "index.html"),
+		ejs.render(templateIndex, {
+			options,
+			posts
+		})
+	);
 
-		for (let j = 0; j < sectionPosts.length; j++) {
-			const sectionPost = sectionPosts[j];
-			compile(path.join(destinationPath, section, sectionPost.file), templatePost, sectionPost, engine, engineOptions);
-		}
+	for (let i = 0; i < posts.length; i++) {
+		const post = posts[i];
+
+		fs.writeFileSync(
+			path.join(destinationPath, post.file + ".html"),
+			ejs.render(templatePost, {
+				options,
+				post,
+				posts
+			})
+		);
 	}
 
 	for (const feedType in feed) {
 		if (feedType === "JSON") {
-			compileJSONFeed(destinationPath, posts, feed[feedType]);
+			compileFeedJSON(feed[feedType], posts, destinationPath);
 		}
 	}
 
-	compile(path.join(destinationPath, "index.html"), templateIndex, posts, engine, engineOptions);
-
-	log(`Built files in directory \x1b[33m"./${destinationName}"\x1b[0m ✨`);
+	log(`Built files in directory \x1b[33m${destinationName}\x1b[0m`);
 };
 
 module.exports = Sold;
