@@ -58,6 +58,7 @@ Expected \`feed.JSON.home_page_url\` to be defined.`);
 	feed.version = "https://jsonfeed.org/version/1";
 	feed.feed_url = feed.home_page_url + "feed.json";
 	feed.items = [];
+	posts = posts.filter(post => !post.draft);
 
 	for (let i = 0; i < posts.length; i++) {
 		const post = posts[i];
