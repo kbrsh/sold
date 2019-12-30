@@ -30,7 +30,7 @@ Sold({
 
 3) Create a folder called `src` (or whatever you named the source).
 
-4) To make a new post, make a markdown file, for example `post.md`. Put some metadata at the top to let Sold know of the title and description of the post, then put your content. For example:
+4) To make a new post, make a markdown file, for example `post.md` in the source folder. Put some metadata at the top to let Sold know of the title and description of the post, then put your content. For example:
 ```markdown
 ---
 title: First Post
