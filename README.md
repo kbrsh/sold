@@ -85,13 +85,13 @@ For example:
 ```html
 <h1><%= post.title %></h1>
 <h3><%= post.description %></h3>
-<p><%= file %></p>
+<p><%= post.file %></p>
 
 <% posts.forEach(post => { %>
 	<%= post.title %>
 <% }); %>
 
-<%- content %>
+<%- post.content %>
 ```
 
 ## JSON Feed
